@@ -1,0 +1,19 @@
+---
+- name: Configure Webserver and Deploy App
+  hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+    - name: Install HTTPD Package
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+    - name: Start the HTTPD service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+    - name: Deploy Application
+      ansible.builtin.copy:
+        src: index.html
+        dest: /var/www/html/
